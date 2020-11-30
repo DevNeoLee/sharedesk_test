@@ -1,0 +1,22 @@
+
+<div class="col-md-4">
+<%=link_to room_path(room.id) do %>
+    <div class="card mb-2 shadow d-flex ">
+        <div class="card-header">
+            <%= room.address %>
+        </div>
+        <% if room.images.attached? %>
+            <%= image_tag room.medium_image(room.images[0]), class: "img-fluid"%>
+        <% end %>
+        <div class="card-body">
+            <div class="card-text">
+                <%= room.listing_name %>
+            </div>
+            <div class="card-text">
+                <%= room.address %>
+            </div>
+        </div>
+    </div>
+<% end %>
+</div>
+

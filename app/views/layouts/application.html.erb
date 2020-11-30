@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>DeskShare</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= stylesheet_link_tag '//ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/le-frog/jquery-ui.min.css' %>
+    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag "https://maps.googleapis.com/maps/api/js?key=#{ Rails.application.credentials.dig(:google, :MAPS_API_KEY)}&libraries=places&callback=dispatchMapsEvent",
+                            async: true,
+                            defer: true,
+                            "data-turbolinks-eval": false %>
+    <%= favicon_link_tag asset_path('orangePolygonLarge.png') %>
+  </head>
+
+  <body>
+    <%# navbar %>
+    <%= render 'shared/navbar' %>      
+  
+    <%# main %>
+    <%= render 'shared/message'%>
+    <div class="container main">
+      <%= yield %>
+    </div>
+
+    <% if user_signed_in? %>
+      <footer>
+ 
+            <ul>
+              <li>1</li>
+              <li>2</li>
+              <li>3</li>
+              <li>4</li>
+
+            </ul>
+    
+      </footer>
+    <% end %>
+  </body>
+</html>

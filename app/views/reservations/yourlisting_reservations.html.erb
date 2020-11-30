@@ -1,0 +1,67 @@
+<h3 class="text-center m-4">Your Listing Reservations</h3>
+<div class="row">
+    <div class="col-md-3">
+        <div class="card mb-3">
+            <div class="card-header">
+                Reservation Monthly Summary
+            </div>
+            <div class="card-body">
+                <div class="card-title">
+                    <h5>hello</h5>
+                </div>
+                 <div class="card-text">
+                    You have # reservartions.
+                </div>
+                <div class="card-text">
+                    Total Sales: $
+                </div>
+            </div>
+        </div>
+        <div class="card mb-3">
+            <div class="card-header">
+                Reservation Yearly Summary
+            </div>
+            <div class="card-body">
+                <div class="card-title">
+                    <h5>hello</h5>
+                </div>
+                <div class="card-text">
+                    You have # reservations.
+                </div>
+                <div class="card-text">
+                    Total Sales: $
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-9">
+        <% @rooms.each do |room| %>
+            <% room.reservations.each do |reservation| %>
+                <%= link_to room_path(room.id) do %>
+                    <div class="card mb-3 ">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <%= reservation.start_date.strftime('%v')%>
+                            </div>
+                            <div class="col-md-9">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="card-title">
+                                            <%=room.listing_name %>
+                                        </div>
+                                        <%= link_to user_path(reservation.user) do %>
+                                            <%= image_tag reservation.user.default_avatar, class: "img-circle avatar-large"%>
+                                        <% end %>
+                                        <div class="card-text">
+                                            <h5>$<%= reservation.total %></h5>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>                
+                <% end %>            
+            <% end %>
+        <% end %>
+    </div>
+</div>

@@ -1,0 +1,162 @@
+<%# front two main images with local access %>
+<div class="jumbotron shadow">
+  <h1 class="display-4">Need quick work station this morning?</h1>
+  <p class="lead">Find your work desk instantly.</p>
+  <hr class="my-4">
+  <div class="col-md-12">
+    <div class="row">
+        <div class="col-md-6">
+            <%= image_pack_tag "main_image2.jpg", class: "img-fluid" %>
+        </div>
+        <div class="col-md-6">
+            <%= image_pack_tag "main_image1.jpg", class: "img-fluid" %>
+        </div>
+    </div>
+  </div>
+
+  <p>Want to find what are available for your work productivity and efficiency?</p>
+  <p class="lead">
+    <a class="btn btn-primary btn-lg" href="#" role="button">Find Locally!</a>
+  </p>
+</div>
+
+<div class="jumbotron shadow col-md-12">
+    <div class="text-center mb-5 h3">
+        <h3>Have your desk at any city!</h3>
+    </div>
+    <div class="row">    
+        <% @rooms.each do |room|%>
+            <div class="col-md-4">
+                <%= link_to room_path(room.id) do %>
+                    <div class="card mb-2 shadow m-2">
+                        <div class="card-header">
+                            <%= room.listing_name %>
+                        </div>
+                        <% if room.images.attached? %>
+                            <%= image_tag room.medium_image(room.images[0]), class: "img-fluid"%>
+                        <% end %>
+                        <div class="card-body">
+                            <div class="card-text">
+                                <%= room.listing_name %>
+                            </div>
+                            <div class="card-text">
+                                <%= room.address %>
+                            </div>
+                        </div>
+                    </div>
+                <% end %>
+            </div>
+        <% end %> 
+    </div>
+  
+</div>
+
+<%# mid-search form %>
+<div class="container-fluid mb-3 border p-4 shadow">
+    <%= search_form_for @search, url: search_path, method: :get do |f| %>
+        <div class="row">
+            <div class="col-md-2">
+                <%= f.submit %>
+            </div>
+            <div class="col-md-6">
+                <%= f.search_field :address_cont, placeholder: "where are you going?", class: "form-control"%>
+            </div>
+            <div class="col-md-2">
+                <%= text_field_tag :start_date, placeholder: "start date", class:"form-control", id: "start_date"%>
+            </div>
+            <div class="col-md-2">
+                <%= text_field_tag :end_date, placeholder: "end date", class:"form-control", id: "end_date"%>
+            </div>
+        </div>
+    <% end %>
+</div>
+
+<%# three main cities ard the world %>
+<div class="jumbotron shadow">
+    <div class="text-center">
+        <h2>Anywhere You Go</h2>
+        <p>Discover Amazing Work Space Around You</p>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-md-4 col-sm-12">
+            <div class="card shadow">
+                <div class="va-container">
+                    <div class="va-middle text-center">
+                        <h2><strong>New York</strong></h2>
+                    </div>
+                </div>
+                <div class="card-body">
+                </div>
+            </div>
+        </div>
+    <div class="col-md-4 col-sm-12">
+            <div class="card shadow">
+                <div class="va-container">
+                    <div class="va-middle text-center">
+                        <h2><strong>Kolkata</strong></h2>
+                    </div>
+                </div>
+                <div class="card-body">
+                </div>
+            </div>
+        </div>
+    <div class="col-md-4 col-sm-12">
+            <div class="card shadow">
+                <div class="va-container">
+                    <div class="va-middle text-center">
+                        <h2><strong>Tokyo</strong></h2>
+                    </div>
+                </div>
+                <div class="card-body">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%# customer reviews %>
+<div class="jumbotron shadow">
+    <div class="text-center">
+        <h2>Customer Reviews</h2>
+    </div>
+    <div class="col-md-8">
+        <% @reviews.each do |review| %>
+            <div class="card shadow mb-3 ">
+                <div class="row">
+                    <div class="col-md-3">
+                        <%= @rooms.find(review.room_id).listing_name %>
+                    </div>
+                    <div class="col-md-9">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="card-title">
+                                    <%=review.comment %>
+                                </div>
+                                <div class="card-text">
+                                    <h5><%= review.star %></h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <% end %>
+    </div>
+</div>
+
+<%# footer %>
+<% if !user_signed_in? %>
+  <footer>
+
+            <ul>
+              <li>contact</li>
+              <li>about us</li>
+              <li>locations</li>
+              <li>4</li>
+
+            </ul>
+   
+
+    </footer>
+<% end %>

@@ -1,0 +1,40 @@
+
+<div class="h2 text-center m-4">Your Space Listings</div>
+    <div class="row">
+        <div class="col-md-3">
+            <div class="card">
+                <%=image_pack_tag "default_profile.jpg", class: "img-fluid"%>
+                <div class="card-body">
+                    <div class="card-title">
+                        <button class="btn btn-lg btn-danger" href="new_room_path">add your new location</button><h2><%= link_to 'Add new space', new_room_path %></h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="row">
+                <% @rooms.each do |room| %>
+                    <%= link_to room_path(room.id) do %>
+                        <div class="col-md-4">
+                            <div class="card mb-2">
+                                <div class="card-header">
+                                    <h4><%= room.listing_name %></h4>                     
+                                </div>
+                                <%= image_tag room.medium_image(room.images[0]), class: "img-fluid" %>
+                                <div class="card-body">
+                                    <div class="card-title">
+                                        <%= room.address %>
+                                    </div>
+                                    <%= link_to "Update", edit_room_path(room), class: "btn btn-primary mb-2" %>
+                                    <%= button_to "Delete", room_path(room), method: "delete", data: { confirm: "Are you sure?" }, class: "btn btn-primary" %>
+                                </div>
+                            </div>
+                        </div>                    
+                    <% end %>                    
+                <% end %>
+            </div>
+        </div>
+    </div>
+</div>
+                    
+                 

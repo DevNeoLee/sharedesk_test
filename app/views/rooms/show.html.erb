@@ -1,0 +1,183 @@
+
+<%= link_to new_room_path, class: "h3" do %>Add new space<i class="fas fa-cat"></i><% end %>
+
+<div class="card card-body">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-12">
+                <% if @room.images.attached? %>
+                    <%= image_tag @images[0], class: "img-responsive"%>
+                <% end %>
+            </div>
+        </div>
+        <%# User Info %>
+        <div class="row">
+            <div class="col-md-8">
+                <div class="row">
+                    <div class="col-md-3 text-center">
+                        <%= image_tag (@room.user.default_avatar), class: "img-circle avatar-large"%><br><br>
+                        <%= @room.user.name %>
+                    </div>
+
+                    <div class="col-md-9">
+                        <h4><%= @room.listing_name %></h4>
+                        <%= @room.address %>
+
+                        <div class="row text-center row-space-1">
+                            <div class="col-sm-3">
+                                <i class="fa fa-home fa-2x"></i>
+                            </div>
+                            <div class="col-sm-3">
+                                <i class="fa fa-users fa-2x"></i>
+                            </div>
+                            <div class="col-sm-3">
+                                <i class="fa fa-bed fa-2x"></i>
+                            </div>
+                            <div class="col-sm-3">
+                                <i class="fa fa-ship fa-2x"></i>
+                            </div>
+                            <div class="col-sm-3">
+                                <i class="fas fa-box-open"></i>
+                            </div>
+                        </div>
+
+                        <div class="row text-center">
+                            <div class="col-sm-3">
+                                <%= @room.space_type%>
+                            </div>
+                        </div>
+                        <div class="row text-center">
+                            <div class="col-sm-3">
+                                <% if @room.capacity %>
+                                    <%= @room.capacity %> <%= @room.capacity > 1 ? "Guests" : "Guest" %>
+                                <% end %>
+                                
+                            </div>
+                        </div>
+                        <div class="row text-center">
+                            <div class="col-sm-3">
+                                <%= @room.desk_type %> 
+                            </div>
+                        </div>
+                        <div class="row text-center">
+                            <div class="col-sm-3">
+                                <%= @room.bath_room %> <%= @room.bath_room > 1 ? "Bathrooms" : "Bathroom" %>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <%# google map %>
+        <%= image_tag "https://maps.googleapis.com/maps/api/staticmap?zoom=15&size=400x300&center=#{@room.latitude},#{@room.longitude}&key=#{Rails.application.credentials.dig(:google, :MAPS_API_KEY)}", alt: "Map" %>
+        
+        <%# About %>
+        <div class="row">
+            <div class="col-md-12">
+                <h2>About This Space</h2>
+                <p><%= @room.summary %></p>
+            </div>
+        </div>
+
+        <%# reservation %>
+        <%= render 'reservations/form' %>
+
+        <%# Amenities %>
+        <div class="row">
+            <div class="col-md-12">
+                <p>Amenities</p>
+            </div>
+            <div class="col-md-10">
+                <div class="row">
+                    <div class="col-md-6">
+                        <ul class="amenities">
+                            <li class="<%= 'text-line-through' if !@room.is_conference %>">Conference Call Space</li>
+                            <li class="<%= 'text-line-through' if !@room.is_kitchen %>">Kitchen</li>
+                            <li class="<%= 'text-line-through' if !@room.is_wifi %>">Wifi/Internet</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <li class="<%= 'text-line-through' if !@room.is_heating %>">Heating</li>  
+                        <li class="<%= 'text-line-through' if !@room.is_air %>">Air Conditioning</li>  
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <%# Reviews %>
+        <div class="row">
+            <div class="col-md-12">
+                <h3>Reviews <span id="average_rating"></span> (<%= @reviews.count %>)</h3>
+                <div class="container">
+                    <div>
+                        <%= render 'reviews/form' if @booked && !@hasReview %>
+                    </div>
+                        <%= render 'reviews/list'%>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 col-md-offset-1">
+                <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+                    
+                     <% if @room.images.attached? %>
+                        <ol class="carousel-indicators">
+                            <% @room.images.each do |image| %>
+                                <li data-target="#carouselExampleIndicators" data-slide-to="<%= image.id %>"></li>
+                            <% end %>
+                        </ol>
+                    <% end %>
+
+                    <div class="carousel-inner">
+                        <% if @room.images.attached? %>
+                            <% @room.images.each_with_index do |image, i| %>
+                                <div class="carousel-item <%='active' if i == 0%>">
+                                    <%= image_tag image, class: "image_carousel"%>
+                                    <div class="carousel-caption">
+                                        <h class="display-3"> Explore New Space </h2>
+                                    </div>
+                                </div>
+                            <% end %>
+                        <% end %>
+                    </div>
+
+                    <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                    </div>
+            </div>
+        </div>
+          <div id="photos"> <%= render 'shared/images'  %> </div>
+        Near By
+        <div class="row">
+            <% for room in @room.nearbys(10) %>
+                <div class="col-md-4">
+                    <div class="card card-body">
+                        <div class="card-heading">
+                            <%= image_tag room.images[0] if room.images.attached?%>
+                        </div>
+                        <div class="card-body">
+                            <%= link_to room.listing_name, room %><br>
+                            (<%= room.distance.round(2) %> miles away)
+                        </div>
+                    </div>
+                </div>
+            <% end %>
+        </div>
+    </div>
+</div>
+    <script>
+    $(function(){
+        $('#average_rating').raty({
+            path: '/assets',
+            readOnly: true,
+            score: <%= @room.average_rating %>
+        })
+
+    });
+    </script>
