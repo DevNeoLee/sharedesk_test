@@ -1,6 +1,6 @@
 class MessagesController < ApplicationController 
     before_action :authenticate_user!
-    befoer_action :set_conversation
+    before_action :set_conversation
 
     def index 
         if current_user == @conversation.sender || current_user == @conversation.recipient 
