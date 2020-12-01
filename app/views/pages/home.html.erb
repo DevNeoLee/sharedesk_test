@@ -20,7 +20,35 @@
   </p>
 </div>
 
-
+<div class="jumbotron shadow col-md-12">
+    <div class="text-center mb-5 h3">
+        <h3>Have your desk at any city!</h3>
+    </div>
+    <div class="row">    
+        <% @rooms.each do |room|%>
+            <div class="col-md-4">
+                <%= link_to room_path(room.id) do %>
+                    <div class="card mb-2 shadow m-2">
+                        <div class="card-header">
+                            <%= room.listing_name %>
+                        </div>
+                        <% if room.images.attached? %>
+                            <%= image_tag room.medium_image(room.images[0]), class: "img-fluid"%>
+                        <% end %>
+                        <div class="card-body">
+                            <div class="card-text">
+                                <%= room.listing_name %>
+                            </div>
+                            <div class="card-text">
+                                <%= room.address %>
+                            </div>
+                        </div>
+                    </div>
+                <% end %>
+            </div>
+        <% end %> 
+    </div>
+</div>
 
 <%# mid-search form %>
 <div class="container-fluid mb-3 border p-4 shadow">
