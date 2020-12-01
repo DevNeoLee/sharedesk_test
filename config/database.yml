@@ -2,18 +2,18 @@
 development:
   adapter: postgresql
   encoding: unicode
-  database: sharedesk_dev
+  database: sharedesk_10_dev
   pool: 5
 
 test:
   adapter: postgresql
   encoding: unicode
-  database: sharedesk_test
+  database: sharedesk_10_test
   pool: 5
 
 
 production:
   adapter: postgresql
   encoding: unicode
-  database: sharedesk_prod
+  database: sharedesk_10_prod
   pool: 5

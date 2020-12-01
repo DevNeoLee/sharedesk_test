@@ -18,8 +18,10 @@ gem 'turbolinks', '~> 5'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.7'
 
-gem 'geocoder'
+gem 'aws-sdk-s3', require: false
 
+gem 'geocoder'
+gem 'uglifier'
 gem 'devise'
 
 gem 'ransack', github: 'activerecord-hackery/ransack'
